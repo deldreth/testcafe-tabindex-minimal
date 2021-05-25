@@ -1,8 +1,11 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { Selector } from "testcafe";
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+fixture("App").page("http://localhost:3000/");
+
+test("Focus on dialog", async (t) => {
+  await t
+    .pressKey("tab enter")
+    .expect(Selector('[data-testid="dialog"]').visible)
+    .eql(true)
+    .pressKey("tab");
 });

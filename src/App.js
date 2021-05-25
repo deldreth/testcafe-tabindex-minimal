@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useRef, useEffect } from "react";
+
+import "./App.css";
+
+function Dialog({ children }) {
+  const dialogRef = useRef(null);
+
+  useEffect(() => {
+    if (dialogRef && dialogRef.current) {
+      dialogRef.current.focus();
+    }
+  }, []);
+
+  return (
+    <div ref={dialogRef} tabIndex="-1" data-testid="dialog">
+      {children}
+    </div>
+  );
+}
 
 function App() {
+  const [showDialog, setShowDialog] = useState(false);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={() => setShowDialog(!showDialog)}>Without Portal</button>
+
+      {showDialog && (
+        <Dialog>
+          <input type="text" />
+        </Dialog>
+      )}
     </div>
   );
 }
